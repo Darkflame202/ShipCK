@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ShipCK</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--blue:#2979ff;--blue2:#448aff;--blue3:#82b1ff;--s1:#0a0b12;--s2:#0f1020;--s3:#161829;--border:rgba(41,121,255,0.15);--border2:rgba(41,121,255,0.35);--text:#e8eaf6;--muted:#5c6085;--muted2:#8890b8;}
+body{font-family:'Space Mono',monospace;background:#050508;color:#e8eaf6;min-height:100vh;}
+input,select,textarea{background:var(--s2);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;width:100%;outline:none;transition:border 0.2s;}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius:6px;font-size:14px;transition:all 0.18s;}
+.btn-blue{background:var(--blue);color:#fff;padding:10px 22px;font-weight:600;}
+.btn-blue:hover{background:var(--blue2);}
+.btn-blue:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-ghost{background:transparent;color:var(--blue3);border:1px solid var(--border);padding:8px 16px;}
+.btn-ghost:hover{border-color:var(--blue);background:rgba(41,121,255,0.07);}
+.btn-danger{background:#b71c1c;color:#fff;padding:6px 12px;font-size:12px;border-radius:5px;}
+.tag{display:inline-block;font-size:10px;padding:3px 9px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;background:rgba(41,121,255,0.1);color:var(--blue3);border:1px solid var(--border);}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,5,0.92);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
+.modal{background:var(--s1);border:1px solid var(--border2);border-radius:12px;padding:32px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;}
+.modal h2{font-size:18px;color:var(--blue3);margin-bottom:20px;font-weight:400;letter-spacing:2px;text-transform:uppercase;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:11px;color:var(--muted2);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.cart-badge{background:var(--blue);color:#fff;border-radius:3px;width:18px;height:18px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-left:4px;}
+.product-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border 0.2s,transform 0.15s,box-shadow 0.2s;}
+.product-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 0 24px rgba(41,121,255,0.12);}
+.product-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:52px;background:var(--s2);position:relative;border-bottom:1px solid var(--border);overflow:hidden;}
+.product-img img{width:100%;height:100%;object-fit:cover;}
+.product-body{padding:14px;}
+.price{font-size:18px;color:var(--blue2);font-weight:700;}
+.old-price{font-size:12px;color:var(--muted);text-decoration:line-through;margin-left:6px;}
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;}
+.filter-pill{padding:5px 14px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--muted2);font-size:12px;cursor:pointer;transition:all 0.18s;letter-spacing:0.5px;}
+.filter-pill.active{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:700;}
+.filter-pill:hover:not(.active){border-color:var(--blue);color:var(--blue3);}
+.cart-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.cart-thumb{width:44px;height:44px;border-radius:6px;overflow:hidden;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.cart-thumb img{width:100%;height:100%;object-fit:cover;}
+.qty-btn{background:var(--s3);color:var(--text);border:1px solid var(--border);width:28px;height:28px;border-radius:4px;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.qty-btn:hover{border-color:var(--blue);}
+.step-dot{width:26px;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.step-dot.done{background:var(--blue);color:#fff;}
+.step-dot.active{background:transparent;border:2px solid var(--blue);color:var(--blue3);}
+.step-dot.pending{background:var(--s3);color:var(--muted);}
+.admin-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--s2);border:1px solid var(--border);border-radius:7px;margin-bottom:7px;}
+.admin-thumb{width:36px;height:36px;border-radius:5px;overflow:hidden;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.admin-thumb img{width:100%;height:100%;object-fit:cover;}
+.upload-zone{border:1.5px dashed var(--border2);border-radius:8px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--s2);position:relative;}
+.upload-zone:hover{border-color:var(--blue);}
+.upload-zone.has-img{padding:0;border-style:solid;}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-preview{width:100%;height:160px;object-fit:cover;border-radius:6px;display:block;}
+.remove-img{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.7);border:1px solid var(--border);color:var(--blue3);border-radius:4px;padding:3px 8px;font-size:11px;z-index:2;cursor:pointer;}
+.lightbox-bg{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:200;display:flex;align-items:center;justify-content:center;cursor:zoom-out;}
+.lightbox-img{max-width:90vw;max-height:85vh;border-radius:8px;border:1px solid var(--border2);}
+.lightbox-close{position:fixed;top:18px;right:22px;color:var(--muted2);font-size:22px;cursor:pointer;background:none;border:none;}
+.glow-line{height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent);border:none;margin:0;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--s1);border:1px solid var(--border2);color:var(--text);padding:12px 20px;border-radius:8px;font-size:13px;z-index:300;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateY(0);}
+.spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+<nav style="background:rgba(5,5,8,0.97);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:50;">
+  <div style="font-size:20px;font-weight:700;letter-spacing:3px;color:#fff;">Ship<span style="color:var(--blue);">CK</span></div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <button class="btn-ghost" onclick="openCart()" style="font-size:12px;letter-spacing:0.5px;">CART <span class="cart-badge" id="cart-count">0</span></button>
+    <button class="btn-ghost" onclick="showAdminLogin()" style="font-size:12px;letter-spacing:0.5px;">ADMIN</button>
+  </div>
+</nav>
+<hr class="glow-line">
+<div style="padding:28px 24px 0;">
+  <div class="filter-bar">
+    <button class="filter-pill active" onclick="setFilter('All',this)">ALL</button>
+    <button class="filter-pill" onclick="setFilter('Fashion',this)">FASHION</button>
+    <button class="filter-pill" onclick="setFilter('Electronics',this)">ELECTRONICS</button>
+    <button class="filter-pill" onclick="setFilter('Home',this)">HOME</button>
+    <button class="filter-pill" onclick="setFilter('General',this)">GENERAL</button>
+  </div>
+  <div id="product-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding-bottom:40px;"></div>
+  <p id="empty-msg" style="color:var(--muted);text-align:center;padding:48px;display:none;font-size:13px;">// no products yet</p>
+  <p id="loading-msg" style="color:var(--muted2);text-align:center;padding:48px;font-size:13px;">// loading...</p>
+</div>
+<div id="lightbox" style="display:none;" onclick="closeLightbox()">
+  <div class="lightbox-bg">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" class="lightbox-img" src="" alt="">
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+<div id="modal-admin-login" style="display:none;">
+  <div class="modal-bg"><div class="modal">
+    <h2>// admin access</h2>
+    <div class="field"><label>Username</label><input id="login-user" type="text" placeholder="username"/></div>
+    <div class="field"><label>Password</label><input id="login-pass" type="password" placeholder="••••••••"/></div>
+    <p id="login-err" style="color:#ef5350;font-size:12px;margin-bottom:12px;display:none;">// invalid credentials</p>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-blue" id="login-btn" onclick="doLogin()" style="flex:1;">ENTER</button>
+      <button class="btn-ghost" onclick="closeAll()">CANCEL</button>
+    </div>
+  </div></div>
+</div>
+<div id="modal-admin-panel" style="display:none;">
+  <div class="modal-bg"><div class="modal" style="max-width:560px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h2 style="margin:0;">// admin panel</h2>
+      <button class="btn-ghost" onclick="adminSignOut()" style="font-size:11px;letter-spacing:1px;">SIGN OUT</button>
+    </div>
+    <div style="border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:22px;">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:14px;">+ ADD PRODUCT</div>
+      <div class="field">
+        <label>Product Photo</label>
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" id="p-photo" accept="image/*" onchange="handlePhotoSelect(event)"/>
+          <div id="upload-placeholder">
+            <div style="font-size:28px;margin-bottom:8px;">📷</div>
+            <div style="font-size:13px;color:var(--muted2);font-family:'DM Sans',sans-serif;">Click or drag photo here</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:6px;">JPG · PNG · WEBP — max 10MB</div>
+          </div>
+          <img id="upload-preview" class="upload-preview" src="" alt="" style="display:none;"/>
+          <button class="remove-img" id="remove-photo" style="display:none;" onclick="removePhoto(event)">✕ remove</button>
+        </div>
+      </div>
+      <div class="field"><label>Product Name</label><input id="p-name" type="text" placeholder="e.g. Carbon Fiber Wallet"/></div>
+      <div class="field"><label>Description</label><textarea id="p-desc" rows="2" placeholder="Short description..."></textarea></div>
+      <div class="grid2">
+        <div class="field"><label>Price ($)</label><input id="p-price" type="number" placeholder="29.99" min="0" step="0.01"/></div>
+        <div class="field"><label>Compare Price ($)</label><input id="p-compare" type="number" placeholder="59.99" min="0" step="0.01"/></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>Category</label>
+          <select id="p-cat">
+            <option value="General">General</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Home">Home &amp; Living</option>
+          </select>
+        </div>
+        <div class="field"><label>Fallback Emoji</label><input id="p-emoji" type="text" placeholder="🛍️" maxlength="2"/></div>
+      </div>
+      <div class="field"><label>Stock</label><input id="p-stock" type="number" placeholder="100" min="0"/></div>
+      <p id="add-err" style="color:#ef5350;font-size:12px;margin-bottom:10px;display:none;">// name and price are required</p>
+      <button class="btn-blue" id="add-btn" onclick="addProduct()" style="width:100%;letter-spacing:1px;">ADD PRODUCT</button>
+    </div>
+    <div style="font-size:10px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:12px;">INVENTORY (<span id="p-count">0</span>)</div>
+    <div id="admin-list"></div>
+  </div></div>
+</div>
+<div id="modal-cart" style="display:none;">
+  <div class="modal-bg"><div class="modal" style="max-width:440px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+      <h2 style="margin:0;">// cart</h2>
+      <button class="btn-ghost" onclick="closeAll()" style="font-size:11px;letter-spacing:1px;">CLOSE</button>
+    </div>
+    <div id="cart-items"></div>
+    <div id="cart-empty" style="color:var(--muted);text-align:center;padding:24px 0;display:none;font-size:13px;">// cart is empty</div>
+    <div style="padding:14px 0;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:12px;color:var(--muted);">TOTAL</span>
+      <span id="cart-total" style="font-size:20px;color:var(--blue2);font-weight:700;">$0.00</span>
+    </div>
+    <button class="btn-blue" id="checkout-btn" onclick="startCheckout()" style="width:100%;letter-spacing:1px;">CHECKOUT →</button>
+  </div></div>
+</div>
+<div id="modal-checkout" style="display:none;">
+  <div class="modal-bg"><div class="modal" style="max-width:500px;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;">
+      <div class="step-dot done" id="s1">1</div>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <div class="step-dot pending" id="s2">2</div>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <div class="step-dot pending" id="s3">3</div>
+    </div>
+    <div id="checkout-step1">
+      <h2>// your details</h2>
+      <div class="field"><label>Full Name</label><input id="o-name" type="text" placeholder="John Smith"/></div>
+      <div class="field"><label>Email</label><input id="o-email" type="email" placeholder="john@example.com"/></div>
+      <div class="field"><label>Phone</label><input id="o-phone" type="tel" placeholder="+1 555 000 0000"/></div>
+      <div class="field"><label>Shipping Address</label><textarea id="o-addr" rows="2" placeholder="123 Main St, City, State, ZIP, Country"></textarea></div>
+      <p id="co-err1" style="color:#ef5350;font-size:12px;margin-bottom:10px;display:none;">// fill all required fields</p>
+      <div style="display:flex;gap:10px;">
+        <button class="btn-ghost" onclick="openCart()">← BACK</button>
+        <button class="btn-blue" onclick="goStep2()" style="flex:1;letter-spacing:1px;">CONTINUE →</button>
+      </div>
+    </div>
+    <div id="checkout-step2" style="display:none;">
+      <h2>// review order</h2>
+      <div id="review-items" style="margin-bottom:16px;"></div>
+      <div style="display:flex;justify-content:space-between;padding:12px 0;border-top:1px solid var(--border);margin-bottom:18px;">
+        <span style="color:var(--muted);font-size:12px;">TOTAL</span>
+        <span id="review-total" style="color:var(--blue2);font-size:18px;font-weight:700;"></span>
+      </div>
+      <div style="background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:14px;margin-bottom:18px;font-size:12px;line-height:1.8;color:var(--muted2);font-family:'DM Sans',sans-serif;"><span id="review-summary"></span></div>
+      <div style="display:flex;gap:10px;">
+        <button class="btn-ghost" onclick="backStep1()">← BACK</button>
+        <button class="btn-blue" onclick="submitOrder()" style="flex:1;letter-spacing:1px;" id="submit-btn">PLACE ORDER</button>
+      </div>
+    </div>
+    <div id="checkout-step3" style="display:none;text-align:center;padding:10px 0;">
+      <div style="width:56px;height:56px;background:rgba(41,121,255,0.12);border:1px solid var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:14px;color:var(--blue2);letter-spacing:2px;">OK</div>
+      <h2 style="color:var(--blue3);margin-bottom:10px;font-size:16px;letter-spacing:3px;">// ORDER CONFIRMED</h2>
+      <p style="color:var(--muted2);font-size:13px;margin-bottom:6px;font-family:'DM Sans',sans-serif;">Confirmation sent to <span id="conf-email" style="color:var(--text);"></span></p>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:26px;" id="conf-order-id"></p>
+      <button class="btn-blue" onclick="finishOrder()" style="letter-spacing:1px;">CONTINUE SHOPPING</button>
+    </div>
+  </div></div>
+</div>
+<script>
+const API_BASE='';
+let products=[],cart=JSON.parse(localStorage.getItem('shipck_cart')||'[]'),currentFilter='All',isAdmin=false,pendingPhotoFile=null;
+function saveCart(){localStorage.setItem('shipck_cart',JSON.stringify(cart));}
+function toast(msg,ms=2800){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),ms);}
+async function apiFetch(path,options={}){const res=await fetch(API_BASE+path,options);if(!res.ok){const e=await res.json().catch(()=>({error:res.statusText}));throw new Error(e.error||res.statusText);}return res.json();}
+function adminHeaders(){return{username:localStorage.getItem('shipck_user')||'',password:localStorage.getItem('shipck_pass')||''};}
+async function loadProducts(){document.getElementById('loading-msg').style.display='block';document.getElementById('empty-msg').style.display='none';try{const url=currentFilter==='All'?'/api/products':`/api/products?cat=${encodeURIComponent(currentFilter)}`;products=await apiFetch(url);renderProducts();}catch(e){document.getElementById('loading-msg').textContent='// could not reach server';toast('⚠ API error: '+e.message);}finally{document.getElementById('loading-msg').style.display='none';}}
+function renderProducts(){const grid=document.getElementById('product-grid'),empty=document.getElementById('empty-msg');grid.innerHTML='';if(!products.length){empty.style.display='block';return;}empty.style.display='none';products.forEach(p=>{const inCart=cart.find(c=>c.id===p._id);const imgContent=p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openLightbox('${p.photoUrl}')" />`:`<span style="font-size:52px;">${p.emoji||'🛍️'}</span>`;grid.innerHTML+=`<div class="product-card"><div class="product-img">${imgContent}${p.compare?`<span style="position:absolute;top:10px;right:10px;background:var(--blue);color:#fff;font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:1px;z-index:1;">SALE</span>`:''}</div><div class="product-body"><span class="tag">${p.cat}</span><div style="margin:8px 0 3px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;">${p.name}</div><div style="font-size:12px;color:var(--muted2);margin-bottom:10px;line-height:1.5;font-family:'DM Sans',sans-serif;">${p.desc||''}</div><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;"><div><span class="price">$${parseFloat(p.price).toFixed(2)}</span>${p.compare?`<span class="old-price">$${parseFloat(p.compare).toFixed(2)}</span>`:''}</div><button class="btn-blue" onclick="addToCart('${p._id}')" style="font-size:11px;padding:6px 12px;letter-spacing:0.5px;">${inCart?'IN CART ✓':'ADD'}</button></div>${p.stock<=5&&p.stock>0?`<p style="font-size:10px;color:#ffb300;margin-top:6px;">// only ${p.stock} left</p>`:''}${p.stock==0?`<p style="font-size:10px;color:#ef5350;margin-top:6px;">// out of stock</p>`:''}</div></div>`;});}
+function addToCart(id){const e=cart.find(c=>c.id===id);if(e)e.qty++;else cart.push({id,qty:1});saveCart();updateCartCount();renderProducts();toast('// added to cart');}
+function changeQty(id,d){const item=cart.find(c=>c.id===id);if(!item)return;item.qty+=d;if(item.qty<=0)cart=cart.filter(c=>c.id!==id);saveCart();updateCartCount();renderCartItems();}
+function updateCartCount(){document.getElementById('cart-count').textContent=cart.reduce((s,c)=>s+c.qty,0);}
+function renderCartItems(){const c=document.getElementById('cart-items'),e=document.getElementById('cart-empty'),t=document.getElementById('cart-total'),b=document.getElementById('checkout-btn');if(!cart.length){c.innerHTML='';e.style.display='block';t.textContent='$0.00';b.disabled=true;return;}e.style.display='none';b.disabled=false;let total=0;c.innerHTML=cart.map(item=>{const p=products.find(x=>x._id===item.id);if(!p)return'';total+=p.price*item.qty;return`<div class="cart-item"><div class="cart-thumb">${p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}"/>`:`<span style="font-size:20px;">${p.emoji||'🛍️'}</span>`}</div><div style="flex:1;min-width:0;"><div style="font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;">${p.name}</div><div style="font-size:11px;color:var(--muted2);">$${p.price.toFixed(2)}</div></div><div style="display:flex;align-items:center;gap:6px;"><div class="qty-btn" onclick="changeQty('${item.id}',-1)">−</div><span style="font-size:13px;min-width:20px;text-align:center;">${item.qty}</span><div class="qty-btn" onclick="changeQty('${item.id}',1)">+</div></div></div>`;}).join('');t.textContent='$'+total.toFixed(2);}
+function openLightbox(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').style.display='block';}
+function closeLightbox(){document.getElementById('lightbox').style.display='none';}
+function setFilter(cat,btn){currentFilter=cat;document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');loadProducts();}
+function closeAll(){['modal-admin-login','modal-admin-panel','modal-cart','modal-checkout'].forEach(id=>document.getElementById(id).style.display='none');}
+function openCart(){closeAll();document.getElementById('modal-cart').style.display='block';renderCartItems();}
+function showAdminLogin(){if(isAdmin){showAdminPanel();return;}closeAll();document.getElementById('modal-admin-login').style.display='block';}
+async function doLogin(){const u=document.getElementById('login-user').value.trim(),p=document.getElementById('login-pass').value,btn=document.getElementById('login-btn');btn.innerHTML='<span class="spinner"></span>CHECKING...';btn.disabled=true;try{await apiFetch('/api/admin/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});isAdmin=true;localStorage.setItem('shipck_user',u);localStorage.setItem('shipck_pass',p);closeAll();showAdminPanel();}catch{document.getElementById('login-err').style.display='block';}finally{btn.innerHTML='ENTER';btn.disabled=false;}}
+function adminSignOut(){isAdmin=false;localStorage.removeItem('shipck_user');localStorage.removeItem('shipck_pass');closeAll();}
+function showAdminPanel(){closeAll();document.getElementById('modal-admin-panel').style.display='block';loadAdminProducts();}
+async function loadAdminProducts(){document.getElementById('admin-list').innerHTML='<p style="color:var(--muted);font-size:12px;">// loading...</p>';try{const prods=await apiFetch('/api/products');document.getElementById('p-count').textContent=prods.length;if(!prods.length){document.getElementById('admin-list').innerHTML='<p style="color:var(--muted);font-size:12px;">// no products yet</p>';return;}document.getElementById('admin-list').innerHTML=prods.map(p=>`<div class="admin-row"><div class="admin-thumb">${p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}"/>`:`<span style="font-size:18px;">${p.emoji||'🛍️'}</span>`}</div><div style="flex:1;min-width:0;"><div style="font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'DM Sans',sans-serif;">${p.name}</div><div style="font-size:11px;color:var(--muted2);">$${parseFloat(p.price).toFixed(2)} · ${p.cat} · ${p.stock} units${p.photoUrl?' · 📷':''}</div></div><button class="btn-danger" onclick="deleteProduct('${p._id}')">DELETE</button></div>`).join('');}catch(e){document.getElementById('admin-list').innerHTML=`<p style="color:#ef5350;font-size:12px;">// error: ${e.message}</p>`;}}
+function handlePhotoSelect(e){const file=e.target.files[0];if(!file)return;pendingPhotoFile=file;const reader=new FileReader();reader.onload=ev=>{document.getElementById('upload-preview').src=ev.target.result;document.getElementById('upload-preview').style.display='block';document.getElementById('upload-placeholder').style.display='none';document.getElementById('remove-photo').style.display='block';document.getElementById('upload-zone').classList.add('has-img');};reader.readAsDataURL(file);}
+function removePhoto(e){e.stopPropagation();pendingPhotoFile=null;document.getElementById('upload-preview').style.display='none';document.getElementById('upload-placeholder').style.display='block';document.getElementById('remove-photo').style.display='none';document.getElementById('upload-zone').classList.remove('has-img');document.getElementById('p-photo').value='';}
+async function addProduct(){const name=document.getElementById('p-name').value.trim(),price=document.getElementById('p-price').value,err=document.getElementById('add-err');if(!name||!price){err.style.display='block';return;}err.style.display='none';const btn=document.getElementById('add-btn');btn.innerHTML='<span class="spinner"></span>SAVING...';btn.disabled=true;try{let photoBase64=null,photoMime=null;if(pendingPhotoFile){photoMime=pendingPhotoFile.type;photoBase64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(pendingPhotoFile);});}await apiFetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json',...adminHeaders()},body:JSON.stringify({name,desc:document.getElementById('p-desc').value.trim(),price,compare:document.getElementById('p-compare').value,cat:document.getElementById('p-cat').value,emoji:document.getElementById('p-emoji').value||'🛍️',stock:document.getElementById('p-stock').value||100,photoBase64,photoMime})});['p-name','p-desc','p-price','p-compare','p-emoji','p-stock'].forEach(id=>document.getElementById(id).value='');removePhoto({stopPropagation:()=>{}});toast('// product added');loadAdminProducts();loadProducts();}catch(e){toast('✗ '+e.message);}finally{btn.innerHTML='ADD PRODUCT';btn.disabled=false;}}
+async function deleteProduct(id){if(!confirm('Delete this product?'))return;try{await apiFetch('/api/products/'+id,{method:'DELETE',headers:adminHeaders()});toast('// product deleted');cart=cart.filter(c=>c.id!==id);saveCart();updateCartCount();loadAdminProducts();loadProducts();}catch(e){toast('✗ '+e.message);}}
+function startCheckout(){if(!cart.length)return;closeAll();['checkout-step1','checkout-step2','checkout-step3'].forEach((id,i)=>document.getElementById(id).style.display=i===0?'block':'none');['s1','s2','s3'].forEach((id,i)=>document.getElementById(id).className='step-dot '+(i===0?'done':'pending'));document.getElementById('modal-checkout').style.display='block';}
+function goStep2(){const name=document.getElementById('o-name').value.trim(),email=document.getElementById('o-email').value.trim(),addr=document.getElementById('o-addr').value.trim(),err=document.getElementById('co-err1');if(!name||!email||!addr){err.style.display='block';return;}err.style.display='none';document.getElementById('s2').className='step-dot active';document.getElementById('checkout-step1').style.display='none';document.getElementById('checkout-step2').style.display='block';let total=0;const h=cart.map(item=>{const p=products.find(x=>x._id===item.id);if(!p)return'';const s=p.price*item.qty;total+=s;return`<div style="display:flex;align-items:center;gap:10px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;"><div style="width:32px;height:32px;border-radius:4px;overflow:hidden;background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">${p.photoUrl?`<img src="${p.photoUrl}" style="width:100%;height:100%;object-fit:cover;"/>`:`<span style="font-size:16px;">${p.emoji||'🛍️'}</span>`}</div><span style="flex:1;">${p.name} × ${item.qty}</span><span style="color:var(--blue2);">$${s.toFixed(2)}</span></div>`;}).join('');document.getElementById('review-items').innerHTML=h;document.getElementById('review-total').textContent='$'+total.toFixed(2);document.getElementById('review-summary').innerHTML=`Ship to: <span style="color:var(--text);">${addr}</span><br>Email: <span style="color:var(--text);">${email}</span>`;}
+function backStep1(){document.getElementById('checkout-step1').style.display='block';document.getElementById('checkout-step2').style.display='none';document.getElementById('s2').className='step-dot pending';}
+async function submitOrder(){const btn=document.getElementById('submit-btn');btn.innerHTML='<span class="spinner"></span>PROCESSING...';btn.disabled=true;try{const result=await apiFetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:document.getElementById('o-name').value.trim(),email:document.getElementById('o-email').value.trim(),phone:document.getElementById('o-phone').value.trim(),address:document.getElementById('o-addr').value.trim(),items:cart.map(c=>({productId:c.id,qty:c.qty}))})});document.getElementById('checkout-step2').style.display='none';document.getElementById('checkout-step3').style.display='block';document.getElementById('s2').className='step-dot done';document.getElementById('s3').className='step-dot done';document.getElementById('conf-email').textContent=document.getElementById('o-email').value.trim();document.getElementById('conf-order-id').textContent=`// order id: ${result.orderId} — we'll be in touch within 24hrs`;}catch(e){toast('✗ Order failed: '+e.message);}finally{btn.innerHTML='PLACE ORDER';btn.disabled=false;}}
+function finishOrder(){cart=[];saveCart();updateCartCount();closeAll();loadProducts();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAll();closeLightbox();}});
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+updateCartCount();
+loadProducts();
+</script>
+</body>
+</html>
