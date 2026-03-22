@@ -14,6 +14,7 @@ const productSchema = new mongoose.Schema({
   emoji:    { type: String, default: '🛍️' },
   stock:    { type: Number, default: 100 },
   photoUrl: String,
+  sellerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Seller', default: null },
   createdAt:{ type: Date, default: Date.now }
 });
 
@@ -34,8 +35,42 @@ const orderSchema = new mongoose.Schema({
   createdAt:{ type: Date, default: Date.now }
 });
 
-const Product = mongoose.models.Product || mongoose.model('Product', productSchema);
-const Order   = mongoose.models.Order   || mongoose.model('Order', orderSchema);
+const sellerSchema = new mongoose.Schema({
+  username:    { type: String, required: true, unique: true },
+  email:       { type: String, required: true, unique: true },
+  password:    { type: String, required: true },
+  shopName:    { type: String, required: true },
+  shopDesc:    String,
+  avatarEmoji: { type: String, default: '🏪' },
+  createdAt:   { type: Date, default: Date.now }
+});
+
+const reviewSchema = new mongoose.Schema({
+  productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+  buyerName: { type: String, required: true },
+  rating:    { type: Number, required: true, min: 1, max: 5 },
+  comment:   String,
+  createdAt: { type: Date, default: Date.now }
+});
+
+const pokemonCardSchema = new mongoose.Schema({
+  name:        { type: String, required: true },
+  set:         String,
+  condition:   { type: String, default: 'Near Mint' },
+  price:       { type: Number, required: true },
+  desc:        String,
+  photoUrl:    String,
+  sellerId:    { type: mongoose.Schema.Types.ObjectId, ref: 'Seller' },
+  sellerName:  String,
+  sold:        { type: Boolean, default: false },
+  createdAt:   { type: Date, default: Date.now }
+});
+
+const Product     = mongoose.models.Product     || mongoose.model('Product',     productSchema);
+const Order       = mongoose.models.Order       || mongoose.model('Order',       orderSchema);
+const Seller      = mongoose.models.Seller      || mongoose.model('Seller',      sellerSchema);
+const Review      = mongoose.models.Review      || mongoose.model('Review',      reviewSchema);
+const PokemonCard = mongoose.models.PokemonCard || mongoose.model('PokemonCard', pokemonCardSchema);
 
 function isAdmin(headers) {
   return (
@@ -44,10 +79,17 @@ function isAdmin(headers) {
   );
 }
 
+function isSeller(headers, sellerId) {
+  return (
+    headers['seller-id'] === sellerId.toString() &&
+    headers['seller-token'] === process.env.SELLER_SECRET
+  );
+}
+
 const CORS = {
   'Access-Control-Allow-Origin':  '*',
   'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type,username,password'
+  'Access-Control-Allow-Headers': 'Content-Type,username,password,seller-id,seller-token'
 };
 
 function ok(body, status = 200) {
@@ -66,4 +108,4 @@ function err(msg, status = 400) {
   };
 }
 
-module.exports = { connectDB, Product, Order, isAdmin, ok, err, CORS };
+module.exports = { connectDB, Product, Order, Seller, Review, PokemonCard, isAdmin, isSeller, ok, err, CORS };
