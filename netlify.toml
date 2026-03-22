@@ -27,3 +27,33 @@
   from = "/api/admin/verify"
   to = "/.netlify/functions/admin-verify"
   status = 200
+
+[[redirects]]
+  from = "/api/sellers/*"
+  to = "/.netlify/functions/sellers"
+  status = 200
+
+[[redirects]]
+  from = "/api/sellers"
+  to = "/.netlify/functions/sellers"
+  status = 200
+
+[[redirects]]
+  from = "/api/reviews/*"
+  to = "/.netlify/functions/reviews"
+  status = 200
+
+[[redirects]]
+  from = "/api/reviews"
+  to = "/.netlify/functions/reviews"
+  status = 200
+
+[[redirects]]
+  from = "/api/pokemon/*"
+  to = "/.netlify/functions/pokemon"
+  status = 200
+
+[[redirects]]
+  from = "/api/pokemon"
+  to = "/.netlify/functions/pokemon"
+  status = 200
