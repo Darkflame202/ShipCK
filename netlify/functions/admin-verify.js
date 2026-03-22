@@ -13,11 +13,7 @@ exports.handler = async (event) => {
 
   const { username, password } = body;
 
-  console.log('Login attempt:', username);
-  console.log('Expected user:', process.env.ADMIN_USER);
-  console.log('Match:', username === process.env.ADMIN_USER && password === process.env.ADMIN_PASS);
-
-  if (username === process.env.ADMIN_USER && password === process.env.ADMIN_PASS) {
+  if (username === 'blank_dev' && password === 'ck12') {
     return {
       statusCode: 200,
       headers: { ...CORS, 'Content-Type': 'application/json' },
@@ -27,10 +23,6 @@ exports.handler = async (event) => {
   return {
     statusCode: 401,
     headers: { ...CORS, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-      error: 'Invalid credentials',
-      debug_user_match: username === process.env.ADMIN_USER,
-      debug_pass_match: password === process.env.ADMIN_PASS
-    })
+    body: JSON.stringify({ error: 'Invalid credentials' })
   };
 };
