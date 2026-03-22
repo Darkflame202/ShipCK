@@ -2,15 +2,16 @@ const { connectDB, Product, Order, isAdmin, ok, err, CORS } = require('./_db');
 
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS, body: '' };
-
   await connectDB();
 
+  // GET /api/orders (admin only)
   if (event.httpMethod === 'GET') {
     if (!isAdmin(event.headers)) return err('Unauthorized', 401);
     const orders = await Order.find().sort({ createdAt: -1 });
     return ok(orders);
   }
 
+  // POST /api/orders (public)
   if (event.httpMethod === 'POST') {
     let body;
     try { body = JSON.parse(event.body); } catch { return err('Invalid JSON'); }
