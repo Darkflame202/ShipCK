@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-:root{--blue:#2979ff;--blue2:#448aff;--blue3:#82b1ff;--s1:#0a0b12;--s2:#0f1020;--s3:#161829;--border:rgba(41,121,255,0.15);--border2:rgba(41,121,255,0.35);--text:#e8eaf6;--muted:#5c6085;--muted2:#8890b8;}
+:root{--blue:#2979ff;--blue2:#448aff;--blue3:#82b1ff;--s1:#0a0b12;--s2:#0f1020;--s3:#161829;--border:rgba(41,121,255,0.15);--border2:rgba(41,121,255,0.35);--text:#e8eaf6;--muted:#5c6085;--muted2:#8890b8;--yellow:#ffd700;--red:#e53935;}
 body{font-family:'Space Mono',monospace;background:#050508;color:#e8eaf6;min-height:100vh;}
 input,select,textarea{background:var(--s2);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;width:100%;outline:none;transition:border 0.2s;}
 input:focus,select:focus,textarea:focus{border-color:var(--blue);}
@@ -17,21 +17,28 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
 .btn-blue:disabled{opacity:0.5;cursor:not-allowed;}
 .btn-ghost{background:transparent;color:var(--blue3);border:1px solid var(--border);padding:8px 16px;}
 .btn-ghost:hover{border-color:var(--blue);background:rgba(41,121,255,0.07);}
+.btn-yellow{background:var(--yellow);color:#000;padding:10px 22px;font-weight:700;}
+.btn-yellow:hover{background:#ffe033;}
 .btn-danger{background:#b71c1c;color:#fff;padding:6px 12px;font-size:12px;border-radius:5px;}
 .tag{display:inline-block;font-size:10px;padding:3px 9px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;background:rgba(41,121,255,0.1);color:var(--blue3);border:1px solid var(--border);}
+.tag-yellow{background:rgba(255,215,0,0.1);color:var(--yellow);border-color:rgba(255,215,0,0.3);}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,5,0.92);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;}
 .modal{background:var(--s1);border:1px solid var(--border2);border-radius:12px;padding:32px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;}
 .modal h2{font-size:18px;color:var(--blue3);margin-bottom:20px;font-weight:400;letter-spacing:2px;text-transform:uppercase;}
+.modal-yellow h2{color:var(--yellow);}
 .field{margin-bottom:14px;}
 .field label{display:block;font-size:11px;color:var(--muted2);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .cart-badge{background:var(--blue);color:#fff;border-radius:3px;width:18px;height:18px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;vertical-align:middle;margin-left:4px;}
 .product-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border 0.2s,transform 0.15s,box-shadow 0.2s;}
 .product-card:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:0 0 24px rgba(41,121,255,0.12);}
+.pokemon-card{background:var(--s1);border:1px solid rgba(255,215,0,0.2);border-radius:10px;overflow:hidden;transition:border 0.2s,transform 0.15s,box-shadow 0.2s;}
+.pokemon-card:hover{border-color:var(--yellow);transform:translateY(-3px);box-shadow:0 0 24px rgba(255,215,0,0.12);}
 .product-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:52px;background:var(--s2);position:relative;border-bottom:1px solid var(--border);overflow:hidden;}
 .product-img img{width:100%;height:100%;object-fit:cover;}
 .product-body{padding:14px;}
 .price{font-size:18px;color:var(--blue2);font-weight:700;}
+.price-yellow{color:var(--yellow);}
 .old-price{font-size:12px;color:var(--muted);text-decoration:line-through;margin-left:6px;}
 .filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px;}
 .filter-pill{padding:5px 14px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--muted2);font-size:12px;cursor:pointer;transition:all 0.18s;letter-spacing:0.5px;}
@@ -63,18 +70,45 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
 .toast.show{opacity:1;transform:translateY(0);}
 .spinner{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.nav-tab{padding:6px 14px;border-radius:4px;border:1px solid transparent;background:transparent;color:var(--muted2);font-size:12px;cursor:pointer;transition:all 0.18s;letter-spacing:0.5px;font-family:'Space Mono',monospace;}
+.nav-tab:hover{color:var(--text);}
+.nav-tab.active{color:#fff;border-color:var(--border);}
+.shop-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:20px;transition:border 0.2s,transform 0.15s;cursor:pointer;}
+.shop-card:hover{border-color:var(--blue);transform:translateY(-2px);}
+.star{color:var(--yellow);font-size:14px;}
+.stars-input{display:flex;gap:4px;margin-bottom:8px;}
+.stars-input span{font-size:24px;cursor:pointer;color:var(--muted);transition:color 0.15s;}
+.stars-input span.active{color:var(--yellow);}
+.condition-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:0.5px;text-transform:uppercase;}
+.nm{background:rgba(41,255,100,0.1);color:#4caf50;border:1px solid rgba(41,255,100,0.2);}
+.lp{background:rgba(41,121,255,0.1);color:var(--blue3);border:1px solid var(--border);}
+.mp{background:rgba(255,165,0,0.1);color:#ff9800;border:1px solid rgba(255,165,0,0.2);}
+.hp{background:rgba(255,82,82,0.1);color:#ef5350;border:1px solid rgba(255,82,82,0.2);}
+.dm{background:rgba(150,0,150,0.1);color:#ce93d8;border:1px solid rgba(150,0,150,0.2);}
+.page{display:none;}
+.page.active{display:block;}
 </style>
 </head>
 <body>
-<nav style="background:rgba(5,5,8,0.97);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:50;">
-  <div style="font-size:20px;font-weight:700;letter-spacing:3px;color:#fff;">Ship<span style="color:var(--blue);">CK</span></div>
-  <div style="display:flex;gap:8px;align-items:center;">
-    <button class="btn-ghost" onclick="openCart()" style="font-size:12px;letter-spacing:0.5px;">CART <span class="cart-badge" id="cart-count">0</span></button>
-    <button class="btn-ghost" onclick="showAdminLogin()" style="font-size:12px;letter-spacing:0.5px;">ADMIN</button>
+
+<nav style="background:rgba(5,5,8,0.97);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:6px;">
+  <div style="font-size:18px;font-weight:700;letter-spacing:3px;color:#fff;">Ship<span style="color:var(--blue);">CK</span></div>
+  <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+    <button class="nav-tab active" onclick="showPage('store',this)">STORE</button>
+    <button class="nav-tab" onclick="showPage('shops',this)">SHOPS</button>
+    <button class="nav-tab" onclick="showPage('pokemon',this)">POKEMON</button>
+    <button class="nav-tab" onclick="showPage('about',this)">ABOUT</button>
+  </div>
+  <div style="display:flex;gap:6px;align-items:center;">
+    <button class="btn-ghost" onclick="openCart()" style="font-size:11px;letter-spacing:0.5px;padding:6px 12px;">CART <span class="cart-badge" id="cart-count">0</span></button>
+    <button class="btn-ghost" id="seller-nav-btn" onclick="showSellerMenu()" style="font-size:11px;letter-spacing:0.5px;padding:6px 12px;">SELL</button>
+    <button class="btn-ghost" onclick="showAdminLogin()" style="font-size:11px;letter-spacing:0.5px;padding:6px 12px;">ADMIN</button>
   </div>
 </nav>
 <hr class="glow-line">
-<div style="padding:28px 24px 0;">
+
+<!-- ── STORE PAGE ── -->
+<div id="page-store" class="page active" style="padding:28px 24px 0;">
   <div class="filter-bar">
     <button class="filter-pill active" onclick="setFilter('All',this)">ALL</button>
     <button class="filter-pill" onclick="setFilter('Fashion',this)">FASHION</button>
@@ -86,13 +120,102 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
   <p id="empty-msg" style="color:var(--muted);text-align:center;padding:48px;display:none;font-size:13px;">// no products yet</p>
   <p id="loading-msg" style="color:var(--muted2);text-align:center;padding:48px;font-size:13px;">// loading...</p>
 </div>
+
+<!-- ── SHOPS PAGE ── -->
+<div id="page-shops" class="page" style="padding:28px 24px 0;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+    <div>
+      <div style="font-size:10px;letter-spacing:3px;color:var(--blue);margin-bottom:4px;">// MARKETPLACE</div>
+      <h1 style="font-size:24px;font-weight:700;color:#fff;">Seller Shops</h1>
+    </div>
+    <button class="btn-blue" onclick="showSellerSignup()" style="font-size:12px;">+ OPEN YOUR SHOP</button>
+  </div>
+  <div id="shops-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding-bottom:40px;"></div>
+  <p id="shops-loading" style="color:var(--muted2);text-align:center;padding:48px;font-size:13px;">// loading shops...</p>
+  <p id="shops-empty" style="color:var(--muted);text-align:center;padding:48px;display:none;font-size:13px;">// no shops yet — be the first!</p>
+</div>
+
+<!-- ── SINGLE SHOP PAGE ── -->
+<div id="page-shop" class="page" style="padding:28px 24px 0;">
+  <button onclick="showPage('shops',document.querySelector('.nav-tab:nth-child(2)'))" class="btn-ghost" style="font-size:12px;margin-bottom:20px;">← BACK TO SHOPS</button>
+  <div id="shop-header" style="margin-bottom:28px;"></div>
+  <div id="shop-products" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding-bottom:40px;"></div>
+</div>
+
+<!-- ── POKEMON PAGE ── -->
+<div id="page-pokemon" class="page" style="padding:28px 24px 0;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:10px;">
+    <div>
+      <div style="font-size:10px;letter-spacing:3px;color:var(--yellow);margin-bottom:4px;">// CARD MARKETPLACE</div>
+      <h1 style="font-size:24px;font-weight:700;color:#fff;">Pokemon Cards</h1>
+    </div>
+    <button class="btn-yellow" onclick="showPokemonSell()" style="font-size:12px;">+ LIST A CARD</button>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+    <input id="pokemon-search" type="text" placeholder="Search cards..." style="max-width:200px;padding:7px 12px;font-size:13px;" oninput="loadPokemon()"/>
+    <select id="pokemon-condition" style="max-width:150px;padding:7px 12px;font-size:13px;" onchange="loadPokemon()">
+      <option value="">All Conditions</option>
+      <option value="Near Mint">Near Mint</option>
+      <option value="Lightly Played">Lightly Played</option>
+      <option value="Moderately Played">Moderately Played</option>
+      <option value="Heavily Played">Heavily Played</option>
+      <option value="Damaged">Damaged</option>
+    </select>
+    <input id="pokemon-max" type="number" placeholder="Max price $" style="max-width:120px;padding:7px 12px;font-size:13px;" oninput="loadPokemon()"/>
+  </div>
+  <div id="pokemon-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding-bottom:40px;"></div>
+  <p id="pokemon-loading" style="color:var(--muted2);text-align:center;padding:48px;font-size:13px;">// loading cards...</p>
+  <p id="pokemon-empty" style="color:var(--muted);text-align:center;padding:48px;display:none;font-size:13px;">// no cards listed yet</p>
+</div>
+
+<!-- ── ABOUT PAGE ── -->
+<div id="page-about" class="page" style="padding:48px 24px;max-width:720px;margin:0 auto;">
+  <div style="font-size:10px;letter-spacing:3px;color:var(--blue);margin-bottom:8px;">// ABOUT US</div>
+  <h1 style="font-size:32px;font-weight:700;color:#fff;margin-bottom:24px;letter-spacing:2px;">Ship<span style="color:var(--blue);">CK</span></h1>
+  <div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:20px;">
+    <p style="font-size:15px;color:var(--muted2);line-height:1.9;font-family:'DM Sans',sans-serif;">
+      ShipCK is a next-generation dropshipping marketplace built for everyone. Whether you're a buyer looking for great deals, a seller wanting to open your own shop, or a Pokemon card collector — ShipCK has you covered.
+    </p>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:20px;">
+    <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:20px;">
+      <div style="font-size:28px;margin-bottom:10px;">🛍️</div>
+      <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">Shop</div>
+      <div style="font-size:12px;color:var(--muted2);font-family:'DM Sans',sans-serif;line-height:1.6;">Browse hundreds of products across fashion, electronics, home and more.</div>
+    </div>
+    <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:20px;">
+      <div style="font-size:28px;margin-bottom:10px;">🏪</div>
+      <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">Sell</div>
+      <div style="font-size:12px;color:var(--muted2);font-family:'DM Sans',sans-serif;line-height:1.6;">Open your own shop for free. List products, manage inventory and reach buyers.</div>
+    </div>
+    <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:20px;">
+      <div style="font-size:28px;margin-bottom:10px;">🎴</div>
+      <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:6px;">Trade Cards</div>
+      <div style="font-size:12px;color:var(--muted2);font-family:'DM Sans',sans-serif;line-height:1.6;">Buy and sell Pokemon cards with our dedicated card marketplace.</div>
+    </div>
+  </div>
+  <div style="background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:28px;">
+    <div style="font-size:12px;letter-spacing:2px;color:var(--blue);margin-bottom:12px;">// CONTACT</div>
+    <p style="font-size:14px;color:var(--muted2);font-family:'DM Sans',sans-serif;line-height:1.8;">
+      Built by <span style="color:var(--text);">Kaison Morris</span> &amp; the ShipCK team.<br>
+      Questions? Reach us at <span style="color:var(--blue3);">support@shipck.com</span>
+    </p>
+  </div>
+</div>
+
+<!-- lightbox -->
 <div id="lightbox" style="display:none;" onclick="closeLightbox()">
   <div class="lightbox-bg">
     <button class="lightbox-close" onclick="closeLightbox()">✕</button>
     <img id="lightbox-img" class="lightbox-img" src="" alt="">
   </div>
 </div>
+
 <div id="toast" class="toast"></div>
+
+<!-- ── MODALS ── -->
+
+<!-- admin login -->
 <div id="modal-admin-login" style="display:none;">
   <div class="modal-bg"><div class="modal">
     <h2>// admin access</h2>
@@ -105,6 +228,8 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
     </div>
   </div></div>
 </div>
+
+<!-- admin panel -->
 <div id="modal-admin-panel" style="display:none;">
   <div class="modal-bg"><div class="modal" style="max-width:560px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
@@ -116,14 +241,14 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
       <div class="field">
         <label>Product Photo</label>
         <div class="upload-zone" id="upload-zone">
-          <input type="file" id="p-photo" accept="image/*" onchange="handlePhotoSelect(event)"/>
+          <input type="file" id="p-photo" accept="image/*" onchange="handlePhotoSelect(event,'upload-zone','upload-preview','remove-photo')"/>
           <div id="upload-placeholder">
             <div style="font-size:28px;margin-bottom:8px;">📷</div>
             <div style="font-size:13px;color:var(--muted2);font-family:'DM Sans',sans-serif;">Click or drag photo here</div>
             <div style="font-size:11px;color:var(--muted);margin-top:6px;">JPG · PNG · WEBP — max 10MB</div>
           </div>
           <img id="upload-preview" class="upload-preview" src="" alt="" style="display:none;"/>
-          <button class="remove-img" id="remove-photo" style="display:none;" onclick="removePhoto(event)">✕ remove</button>
+          <button class="remove-img" id="remove-photo" style="display:none;" onclick="removePhoto(event,'upload-zone','upload-preview','remove-photo','upload-placeholder','p-photo')">✕ remove</button>
         </div>
       </div>
       <div class="field"><label>Product Name</label><input id="p-name" type="text" placeholder="e.g. Carbon Fiber Wallet"/></div>
@@ -151,11 +276,158 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
     <div id="admin-list"></div>
   </div></div>
 </div>
+
+<!-- seller signup -->
+<div id="modal-seller-signup" style="display:none;">
+  <div class="modal-bg"><div class="modal">
+    <h2>// open your shop</h2>
+    <div class="field"><label>Username</label><input id="ss-user" type="text" placeholder="yourname"/></div>
+    <div class="field"><label>Email</label><input id="ss-email" type="email" placeholder="you@email.com"/></div>
+    <div class="field"><label>Password</label><input id="ss-pass" type="password" placeholder="••••••••"/></div>
+    <div class="field"><label>Shop Name</label><input id="ss-shop" type="text" placeholder="My Awesome Shop"/></div>
+    <div class="field"><label>Shop Description</label><textarea id="ss-desc" rows="2" placeholder="What do you sell?"></textarea></div>
+    <div class="field"><label>Shop Emoji</label><input id="ss-emoji" type="text" placeholder="🏪" maxlength="2"/></div>
+    <p id="ss-err" style="color:#ef5350;font-size:12px;margin-bottom:10px;display:none;"></p>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-blue" id="ss-btn" onclick="doSellerSignup()" style="flex:1;">CREATE SHOP</button>
+      <button class="btn-ghost" onclick="closeAll()">CANCEL</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:14px;text-align:center;">Already have a shop? <span style="color:var(--blue3);cursor:pointer;" onclick="showSellerLogin()">Sign in</span></p>
+  </div></div>
+</div>
+
+<!-- seller login -->
+<div id="modal-seller-login" style="display:none;">
+  <div class="modal-bg"><div class="modal">
+    <h2>// seller login</h2>
+    <div class="field"><label>Email</label><input id="sl-email" type="email" placeholder="you@email.com"/></div>
+    <div class="field"><label>Password</label><input id="sl-pass" type="password" placeholder="••••••••"/></div>
+    <p id="sl-err" style="color:#ef5350;font-size:12px;margin-bottom:10px;display:none;">// invalid email or password</p>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-blue" id="sl-btn" onclick="doSellerLogin()" style="flex:1;">SIGN IN</button>
+      <button class="btn-ghost" onclick="closeAll()">CANCEL</button>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:14px;text-align:center;">No shop yet? <span style="color:var(--blue3);cursor:pointer;" onclick="showSellerSignup()">Create one</span></p>
+  </div></div>
+</div>
+
+<!-- seller dashboard -->
+<div id="modal-seller-dash" style="display:none;">
+  <div class="modal-bg"><div class="modal" style="max-width:560px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
+      <h2 style="margin:0;" id="seller-dash-title">// my shop</h2>
+      <button class="btn-ghost" onclick="sellerSignOut()" style="font-size:11px;">SIGN OUT</button>
+    </div>
+    <div style="border-bottom:1px solid var(--border);margin-bottom:22px;padding-bottom:22px;">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:14px;">+ ADD PRODUCT TO MY SHOP</div>
+      <div class="field">
+        <label>Product Photo</label>
+        <div class="upload-zone" id="seller-upload-zone">
+          <input type="file" id="sp-photo" accept="image/*" onchange="handlePhotoSelect(event,'seller-upload-zone','seller-upload-preview','seller-remove-photo')"/>
+          <div id="seller-upload-placeholder">
+            <div style="font-size:28px;margin-bottom:8px;">📷</div>
+            <div style="font-size:13px;color:var(--muted2);font-family:'DM Sans',sans-serif;">Click or drag photo here</div>
+          </div>
+          <img id="seller-upload-preview" class="upload-preview" src="" alt="" style="display:none;"/>
+          <button class="remove-img" id="seller-remove-photo" style="display:none;" onclick="removePhoto(event,'seller-upload-zone','seller-upload-preview','seller-remove-photo','seller-upload-placeholder','sp-photo')">✕ remove</button>
+        </div>
+      </div>
+      <div class="field"><label>Product Name</label><input id="sp-name" type="text" placeholder="Product name"/></div>
+      <div class="field"><label>Description</label><textarea id="sp-desc" rows="2" placeholder="Description..."></textarea></div>
+      <div class="grid2">
+        <div class="field"><label>Price ($)</label><input id="sp-price" type="number" placeholder="29.99" min="0" step="0.01"/></div>
+        <div class="field"><label>Stock</label><input id="sp-stock" type="number" placeholder="10" min="0"/></div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>Category</label>
+          <select id="sp-cat">
+            <option value="General">General</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Home">Home &amp; Living</option>
+          </select>
+        </div>
+        <div class="field"><label>Emoji</label><input id="sp-emoji" type="text" placeholder="🛍️" maxlength="2"/></div>
+      </div>
+      <p id="sp-err" style="color:#ef5350;font-size:12px;margin-bottom:10px;display:none;">// name and price required</p>
+      <button class="btn-blue" id="sp-btn" onclick="addSellerProduct()" style="width:100%;">ADD TO MY SHOP</button>
+    </div>
+    <div style="font-size:10px;letter-spacing:2px;color:var(--blue);text-transform:uppercase;margin-bottom:12px;">MY PRODUCTS</div>
+    <div id="seller-product-list"></div>
+  </div></div>
+</div>
+
+<!-- review modal -->
+<div id="modal-review" style="display:none;">
+  <div class="modal-bg"><div class="modal">
+    <h2>// leave a review</h2>
+    <p id="review-product-name" style="color:var(--muted2);font-size:13px;margin-bottom:16px;font-family:'DM Sans',sans-serif;"></p>
+    <div class="field">
+      <label>Your Rating</label>
+      <div class="stars-input" id="stars-input">
+        <span onclick="setRating(1)">★</span>
+        <span onclick="setRating(2)">★</span>
+        <span onclick="setRating(3)">★</span>
+        <span onclick="setRating(4)">★</span>
+        <span onclick="setRating(5)">★</span>
+      </div>
+    </div>
+    <div class="field"><label>Your Name</label><input id="rv-name" type="text" placeholder="John Smith"/></div>
+    <div class="field"><label>Comment (optional)</label><textarea id="rv-comment" rows="3" placeholder="Share your experience..."></textarea></div>
+    <p id="rv-err" style="color:#ef5350;font-size:12px;margin-bottom:10px;display:none;">// name and rating required</p>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-blue" id="rv-btn" onclick="submitReview()" style="flex:1;">SUBMIT REVIEW</button>
+      <button class="btn-ghost" onclick="closeAll()">CANCEL</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- pokemon sell modal -->
+<div id="modal-pokemon-sell" style="display:none;">
+  <div class="modal-bg"><div class="modal modal-yellow">
+    <h2>// list a pokemon card</h2>
+    <p style="color:var(--muted2);font-size:12px;margin-bottom:16px;font-family:'DM Sans',sans-serif;">You must be signed in as a seller to list cards.</p>
+    <div class="field">
+      <label>Card Photo</label>
+      <div class="upload-zone" id="pk-upload-zone">
+        <input type="file" id="pk-photo" accept="image/*" onchange="handlePhotoSelect(event,'pk-upload-zone','pk-upload-preview','pk-remove-photo')"/>
+        <div id="pk-upload-placeholder">
+          <div style="font-size:28px;margin-bottom:8px;">🎴</div>
+          <div style="font-size:13px;color:var(--muted2);font-family:'DM Sans',sans-serif;">Upload card photo</div>
+        </div>
+        <img id="pk-upload-preview" class="upload-preview" src="" alt="" style="display:none;"/>
+        <button class="remove-img" id="pk-remove-photo" style="display:none;" onclick="removePhoto(event,'pk-upload-zone','pk-upload-preview','pk-remove-photo','pk-upload-placeholder','pk-photo')">✕ remove</button>
+      </div>
+    </div>
+    <div class="field"><label>Card Name</label><input id="pk-name" type="text" placeholder="e.g. Charizard VMAX"/></div>
+    <div class="field"><label>Set</label><input id="pk-set" type="text" placeholder="e.g. Brilliant Stars"/></div>
+    <div class="grid2">
+      <div class="field"><label>Condition</label>
+        <select id="pk-condition">
+          <option value="Near Mint">Near Mint</option>
+          <option value="Lightly Played">Lightly Played</option>
+          <option value="Moderately Played">Moderately Played</option>
+          <option value="Heavily Played">Heavily Played</option>
+          <option value="Damaged">Damaged</option>
+        </select>
+      </div>
+      <div class="field"><label>Price ($)</label><input id="pk-price" type="number" placeholder="9.99" min="0" step="0.01"/></div>
+    </div>
+    <div class="field"><label>Description</label><textarea id="pk-desc" rows="2" placeholder="Any extra details..."></textarea></div>
+    <p id="pk-err" style="color:#ef5350;font-size:12px;margin-bottom:10px;display:none;"></p>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-yellow" id="pk-btn" onclick="listPokemonCard()" style="flex:1;">LIST CARD</button>
+      <button class="btn-ghost" onclick="closeAll()">CANCEL</button>
+    </div>
+  </div></div>
+</div>
+
+<!-- cart -->
 <div id="modal-cart" style="display:none;">
   <div class="modal-bg"><div class="modal" style="max-width:440px;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
       <h2 style="margin:0;">// cart</h2>
-      <button class="btn-ghost" onclick="closeAll()" style="font-size:11px;letter-spacing:1px;">CLOSE</button>
+      <button class="btn-ghost" onclick="closeAll()" style="font-size:11px;">CLOSE</button>
     </div>
     <div id="cart-items"></div>
     <div id="cart-empty" style="color:var(--muted);text-align:center;padding:24px 0;display:none;font-size:13px;">// cart is empty</div>
@@ -166,6 +438,8 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
     <button class="btn-blue" id="checkout-btn" onclick="startCheckout()" style="width:100%;letter-spacing:1px;">CHECKOUT →</button>
   </div></div>
 </div>
+
+<!-- checkout -->
 <div id="modal-checkout" style="display:none;">
   <div class="modal-bg"><div class="modal" style="max-width:500px;">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;">
@@ -184,7 +458,7 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
       <p id="co-err1" style="color:#ef5350;font-size:12px;margin-bottom:10px;display:none;">// fill all required fields</p>
       <div style="display:flex;gap:10px;">
         <button class="btn-ghost" onclick="openCart()">← BACK</button>
-        <button class="btn-blue" onclick="goStep2()" style="flex:1;letter-spacing:1px;">CONTINUE →</button>
+        <button class="btn-blue" onclick="goStep2()" style="flex:1;">CONTINUE →</button>
       </div>
     </div>
     <div id="checkout-step2" style="display:none;">
@@ -197,7 +471,7 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
       <div style="background:var(--s2);border:1px solid var(--border);border-radius:7px;padding:14px;margin-bottom:18px;font-size:12px;line-height:1.8;color:var(--muted2);font-family:'DM Sans',sans-serif;"><span id="review-summary"></span></div>
       <div style="display:flex;gap:10px;">
         <button class="btn-ghost" onclick="backStep1()">← BACK</button>
-        <button class="btn-blue" onclick="submitOrder()" style="flex:1;letter-spacing:1px;" id="submit-btn">PLACE ORDER</button>
+        <button class="btn-blue" onclick="submitOrder()" style="flex:1;" id="submit-btn">PLACE ORDER</button>
       </div>
     </div>
     <div id="checkout-step3" style="display:none;text-align:center;padding:10px 0;">
@@ -205,45 +479,638 @@ button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;border-radius
       <h2 style="color:var(--blue3);margin-bottom:10px;font-size:16px;letter-spacing:3px;">// ORDER CONFIRMED</h2>
       <p style="color:var(--muted2);font-size:13px;margin-bottom:6px;font-family:'DM Sans',sans-serif;">Confirmation sent to <span id="conf-email" style="color:var(--text);"></span></p>
       <p style="color:var(--muted);font-size:12px;margin-bottom:26px;" id="conf-order-id"></p>
-      <button class="btn-blue" onclick="finishOrder()" style="letter-spacing:1px;">CONTINUE SHOPPING</button>
+      <button class="btn-blue" onclick="finishOrder()">CONTINUE SHOPPING</button>
     </div>
   </div></div>
 </div>
+
 <script>
-const API_BASE='';
-let products=[],cart=JSON.parse(localStorage.getItem('shipck_cart')||'[]'),currentFilter='All',isAdmin=false,pendingPhotoFile=null;
-function saveCart(){localStorage.setItem('shipck_cart',JSON.stringify(cart));}
-function toast(msg,ms=2800){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),ms);}
-async function apiFetch(path,options={}){const res=await fetch(API_BASE+path,options);if(!res.ok){const e=await res.json().catch(()=>({error:res.statusText}));throw new Error(e.error||res.statusText);}return res.json();}
-function adminHeaders(){return{username:localStorage.getItem('shipck_user')||'',password:localStorage.getItem('shipck_pass')||''};}
-async function loadProducts(){document.getElementById('loading-msg').style.display='block';document.getElementById('empty-msg').style.display='none';try{const url=currentFilter==='All'?'/api/products':`/api/products?cat=${encodeURIComponent(currentFilter)}`;products=await apiFetch(url);renderProducts();}catch(e){document.getElementById('loading-msg').textContent='// could not reach server';toast('⚠ API error: '+e.message);}finally{document.getElementById('loading-msg').style.display='none';}}
-function renderProducts(){const grid=document.getElementById('product-grid'),empty=document.getElementById('empty-msg');grid.innerHTML='';if(!products.length){empty.style.display='block';return;}empty.style.display='none';products.forEach(p=>{const inCart=cart.find(c=>c.id===p._id);const imgContent=p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openLightbox('${p.photoUrl}')" />`:`<span style="font-size:52px;">${p.emoji||'🛍️'}</span>`;grid.innerHTML+=`<div class="product-card"><div class="product-img">${imgContent}${p.compare?`<span style="position:absolute;top:10px;right:10px;background:var(--blue);color:#fff;font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:1px;z-index:1;">SALE</span>`:''}</div><div class="product-body"><span class="tag">${p.cat}</span><div style="margin:8px 0 3px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;">${p.name}</div><div style="font-size:12px;color:var(--muted2);margin-bottom:10px;line-height:1.5;font-family:'DM Sans',sans-serif;">${p.desc||''}</div><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;"><div><span class="price">$${parseFloat(p.price).toFixed(2)}</span>${p.compare?`<span class="old-price">$${parseFloat(p.compare).toFixed(2)}</span>`:''}</div><button class="btn-blue" onclick="addToCart('${p._id}')" style="font-size:11px;padding:6px 12px;letter-spacing:0.5px;">${inCart?'IN CART ✓':'ADD'}</button></div>${p.stock<=5&&p.stock>0?`<p style="font-size:10px;color:#ffb300;margin-top:6px;">// only ${p.stock} left</p>`:''}${p.stock==0?`<p style="font-size:10px;color:#ef5350;margin-top:6px;">// out of stock</p>`:''}</div></div>`;});}
-function addToCart(id){const e=cart.find(c=>c.id===id);if(e)e.qty++;else cart.push({id,qty:1});saveCart();updateCartCount();renderProducts();toast('// added to cart');}
-function changeQty(id,d){const item=cart.find(c=>c.id===id);if(!item)return;item.qty+=d;if(item.qty<=0)cart=cart.filter(c=>c.id!==id);saveCart();updateCartCount();renderCartItems();}
-function updateCartCount(){document.getElementById('cart-count').textContent=cart.reduce((s,c)=>s+c.qty,0);}
-function renderCartItems(){const c=document.getElementById('cart-items'),e=document.getElementById('cart-empty'),t=document.getElementById('cart-total'),b=document.getElementById('checkout-btn');if(!cart.length){c.innerHTML='';e.style.display='block';t.textContent='$0.00';b.disabled=true;return;}e.style.display='none';b.disabled=false;let total=0;c.innerHTML=cart.map(item=>{const p=products.find(x=>x._id===item.id);if(!p)return'';total+=p.price*item.qty;return`<div class="cart-item"><div class="cart-thumb">${p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}"/>`:`<span style="font-size:20px;">${p.emoji||'🛍️'}</span>`}</div><div style="flex:1;min-width:0;"><div style="font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;">${p.name}</div><div style="font-size:11px;color:var(--muted2);">$${p.price.toFixed(2)}</div></div><div style="display:flex;align-items:center;gap:6px;"><div class="qty-btn" onclick="changeQty('${item.id}',-1)">−</div><span style="font-size:13px;min-width:20px;text-align:center;">${item.qty}</span><div class="qty-btn" onclick="changeQty('${item.id}',1)">+</div></div></div>`;}).join('');t.textContent='$'+total.toFixed(2);}
-function openLightbox(src){document.getElementById('lightbox-img').src=src;document.getElementById('lightbox').style.display='block';}
-function closeLightbox(){document.getElementById('lightbox').style.display='none';}
-function setFilter(cat,btn){currentFilter=cat;document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');loadProducts();}
-function closeAll(){['modal-admin-login','modal-admin-panel','modal-cart','modal-checkout'].forEach(id=>document.getElementById(id).style.display='none');}
-function openCart(){closeAll();document.getElementById('modal-cart').style.display='block';renderCartItems();}
-function showAdminLogin(){if(isAdmin){showAdminPanel();return;}closeAll();document.getElementById('modal-admin-login').style.display='block';}
-async function doLogin(){const u=document.getElementById('login-user').value.trim(),p=document.getElementById('login-pass').value,btn=document.getElementById('login-btn');btn.innerHTML='<span class="spinner"></span>CHECKING...';btn.disabled=true;try{await apiFetch('/api/admin/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});isAdmin=true;localStorage.setItem('shipck_user',u);localStorage.setItem('shipck_pass',p);closeAll();showAdminPanel();}catch{document.getElementById('login-err').style.display='block';}finally{btn.innerHTML='ENTER';btn.disabled=false;}}
-function adminSignOut(){isAdmin=false;localStorage.removeItem('shipck_user');localStorage.removeItem('shipck_pass');closeAll();}
-function showAdminPanel(){closeAll();document.getElementById('modal-admin-panel').style.display='block';loadAdminProducts();}
-async function loadAdminProducts(){document.getElementById('admin-list').innerHTML='<p style="color:var(--muted);font-size:12px;">// loading...</p>';try{const prods=await apiFetch('/api/products');document.getElementById('p-count').textContent=prods.length;if(!prods.length){document.getElementById('admin-list').innerHTML='<p style="color:var(--muted);font-size:12px;">// no products yet</p>';return;}document.getElementById('admin-list').innerHTML=prods.map(p=>`<div class="admin-row"><div class="admin-thumb">${p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}"/>`:`<span style="font-size:18px;">${p.emoji||'🛍️'}</span>`}</div><div style="flex:1;min-width:0;"><div style="font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'DM Sans',sans-serif;">${p.name}</div><div style="font-size:11px;color:var(--muted2);">$${parseFloat(p.price).toFixed(2)} · ${p.cat} · ${p.stock} units${p.photoUrl?' · 📷':''}</div></div><button class="btn-danger" onclick="deleteProduct('${p._id}')">DELETE</button></div>`).join('');}catch(e){document.getElementById('admin-list').innerHTML=`<p style="color:#ef5350;font-size:12px;">// error: ${e.message}</p>`;}}
-function handlePhotoSelect(e){const file=e.target.files[0];if(!file)return;pendingPhotoFile=file;const reader=new FileReader();reader.onload=ev=>{document.getElementById('upload-preview').src=ev.target.result;document.getElementById('upload-preview').style.display='block';document.getElementById('upload-placeholder').style.display='none';document.getElementById('remove-photo').style.display='block';document.getElementById('upload-zone').classList.add('has-img');};reader.readAsDataURL(file);}
-function removePhoto(e){e.stopPropagation();pendingPhotoFile=null;document.getElementById('upload-preview').style.display='none';document.getElementById('upload-placeholder').style.display='block';document.getElementById('remove-photo').style.display='none';document.getElementById('upload-zone').classList.remove('has-img');document.getElementById('p-photo').value='';}
-async function addProduct(){const name=document.getElementById('p-name').value.trim(),price=document.getElementById('p-price').value,err=document.getElementById('add-err');if(!name||!price){err.style.display='block';return;}err.style.display='none';const btn=document.getElementById('add-btn');btn.innerHTML='<span class="spinner"></span>SAVING...';btn.disabled=true;try{let photoBase64=null,photoMime=null;if(pendingPhotoFile){photoMime=pendingPhotoFile.type;photoBase64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(pendingPhotoFile);});}await apiFetch('/api/products',{method:'POST',headers:{'Content-Type':'application/json',...adminHeaders()},body:JSON.stringify({name,desc:document.getElementById('p-desc').value.trim(),price,compare:document.getElementById('p-compare').value,cat:document.getElementById('p-cat').value,emoji:document.getElementById('p-emoji').value||'🛍️',stock:document.getElementById('p-stock').value||100,photoBase64,photoMime})});['p-name','p-desc','p-price','p-compare','p-emoji','p-stock'].forEach(id=>document.getElementById(id).value='');removePhoto({stopPropagation:()=>{}});toast('// product added');loadAdminProducts();loadProducts();}catch(e){toast('✗ '+e.message);}finally{btn.innerHTML='ADD PRODUCT';btn.disabled=false;}}
-async function deleteProduct(id){if(!confirm('Delete this product?'))return;try{await apiFetch('/api/products/'+id,{method:'DELETE',headers:adminHeaders()});toast('// product deleted');cart=cart.filter(c=>c.id!==id);saveCart();updateCartCount();loadAdminProducts();loadProducts();}catch(e){toast('✗ '+e.message);}}
-function startCheckout(){if(!cart.length)return;closeAll();['checkout-step1','checkout-step2','checkout-step3'].forEach((id,i)=>document.getElementById(id).style.display=i===0?'block':'none');['s1','s2','s3'].forEach((id,i)=>document.getElementById(id).className='step-dot '+(i===0?'done':'pending'));document.getElementById('modal-checkout').style.display='block';}
-function goStep2(){const name=document.getElementById('o-name').value.trim(),email=document.getElementById('o-email').value.trim(),addr=document.getElementById('o-addr').value.trim(),err=document.getElementById('co-err1');if(!name||!email||!addr){err.style.display='block';return;}err.style.display='none';document.getElementById('s2').className='step-dot active';document.getElementById('checkout-step1').style.display='none';document.getElementById('checkout-step2').style.display='block';let total=0;const h=cart.map(item=>{const p=products.find(x=>x._id===item.id);if(!p)return'';const s=p.price*item.qty;total+=s;return`<div style="display:flex;align-items:center;gap:10px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;"><div style="width:32px;height:32px;border-radius:4px;overflow:hidden;background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">${p.photoUrl?`<img src="${p.photoUrl}" style="width:100%;height:100%;object-fit:cover;"/>`:`<span style="font-size:16px;">${p.emoji||'🛍️'}</span>`}</div><span style="flex:1;">${p.name} × ${item.qty}</span><span style="color:var(--blue2);">$${s.toFixed(2)}</span></div>`;}).join('');document.getElementById('review-items').innerHTML=h;document.getElementById('review-total').textContent='$'+total.toFixed(2);document.getElementById('review-summary').innerHTML=`Ship to: <span style="color:var(--text);">${addr}</span><br>Email: <span style="color:var(--text);">${email}</span>`;}
-function backStep1(){document.getElementById('checkout-step1').style.display='block';document.getElementById('checkout-step2').style.display='none';document.getElementById('s2').className='step-dot pending';}
-async function submitOrder(){const btn=document.getElementById('submit-btn');btn.innerHTML='<span class="spinner"></span>PROCESSING...';btn.disabled=true;try{const result=await apiFetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:document.getElementById('o-name').value.trim(),email:document.getElementById('o-email').value.trim(),phone:document.getElementById('o-phone').value.trim(),address:document.getElementById('o-addr').value.trim(),items:cart.map(c=>({productId:c.id,qty:c.qty}))})});document.getElementById('checkout-step2').style.display='none';document.getElementById('checkout-step3').style.display='block';document.getElementById('s2').className='step-dot done';document.getElementById('s3').className='step-dot done';document.getElementById('conf-email').textContent=document.getElementById('o-email').value.trim();document.getElementById('conf-order-id').textContent=`// order id: ${result.orderId} — we'll be in touch within 24hrs`;}catch(e){toast('✗ Order failed: '+e.message);}finally{btn.innerHTML='PLACE ORDER';btn.disabled=false;}}
-function finishOrder(){cart=[];saveCart();updateCartCount();closeAll();loadProducts();}
+const API_BASE = '';
+let products = [], cart = JSON.parse(localStorage.getItem('shipck_cart')||'[]');
+let currentFilter = 'All', isAdmin = false;
+let currentSeller = JSON.parse(localStorage.getItem('shipck_seller')||'null');
+let pendingPhotos = {};
+let currentReviewProductId = null, currentRating = 0;
+
+function saveCart(){ localStorage.setItem('shipck_cart', JSON.stringify(cart)); }
+function saveSeller(s){ currentSeller = s; localStorage.setItem('shipck_seller', JSON.stringify(s)); }
+
+function toast(msg, ms=2800){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), ms);
+}
+
+async function apiFetch(path, options={}){
+  const res = await fetch(API_BASE + path, options);
+  if (!res.ok){ const e = await res.json().catch(()=>({error:res.statusText})); throw new Error(e.error||res.statusText); }
+  return res.json();
+}
+
+function adminHeaders(){ return { username: localStorage.getItem('shipck_user')||'', password: localStorage.getItem('shipck_pass')||'' }; }
+function sellerHeaders(){ return currentSeller ? { 'seller-id': currentSeller._id, 'seller-token': currentSeller.token } : {}; }
+
+// ── Pages ──────────────────────────────────────────────────────────────────
+function showPage(name, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(name==='store') loadProducts();
+  if(name==='shops') loadShops();
+  if(name==='pokemon') loadPokemon();
+}
+
+// ── Photo helpers ──────────────────────────────────────────────────────────
+function handlePhotoSelect(e, zoneId, previewId, removeId){
+  const file = e.target.files[0]; if(!file) return;
+  pendingPhotos[zoneId] = file;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById(previewId).src = ev.target.result;
+    document.getElementById(previewId).style.display = 'block';
+    document.getElementById(zoneId).querySelector('[id$="-placeholder"],[id="upload-placeholder"],[id="seller-upload-placeholder"],[id="pk-upload-placeholder"]') && (document.getElementById(zoneId).querySelector('div[id]').style.display='none');
+    document.getElementById(removeId).style.display = 'block';
+    document.getElementById(zoneId).classList.add('has-img');
+  };
+  reader.readAsDataURL(file);
+}
+
+function removePhoto(e, zoneId, previewId, removeId, placeholderId, inputId){
+  e.stopPropagation();
+  pendingPhotos[zoneId] = null;
+  document.getElementById(previewId).style.display='none';
+  document.getElementById(placeholderId).style.display='block';
+  document.getElementById(removeId).style.display='none';
+  document.getElementById(zoneId).classList.remove('has-img');
+  document.getElementById(inputId).value='';
+}
+
+async function fileToBase64(file){
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload=()=>res(r.result.split(',')[1]);
+    r.onerror=rej;
+    r.readAsDataURL(file);
+  });
+}
+
+// ── Products ───────────────────────────────────────────────────────────────
+async function loadProducts(){
+  document.getElementById('loading-msg').style.display='block';
+  document.getElementById('empty-msg').style.display='none';
+  try {
+    const url = currentFilter==='All' ? '/api/products' : `/api/products?cat=${encodeURIComponent(currentFilter)}`;
+    products = await apiFetch(url);
+    renderProducts();
+  } catch(e){
+    document.getElementById('loading-msg').textContent='// could not reach server';
+    toast('⚠ '+e.message);
+  } finally { document.getElementById('loading-msg').style.display='none'; }
+}
+
+function conditionClass(c){
+  if(!c) return '';
+  if(c==='Near Mint') return 'nm';
+  if(c==='Lightly Played') return 'lp';
+  if(c==='Moderately Played') return 'mp';
+  if(c==='Heavily Played') return 'hp';
+  return 'dm';
+}
+
+function renderProducts(){
+  const grid = document.getElementById('product-grid');
+  const empty = document.getElementById('empty-msg');
+  grid.innerHTML='';
+  if(!products.length){ empty.style.display='block'; return; }
+  empty.style.display='none';
+  products.forEach(p=>{
+    const inCart = cart.find(c=>c.id===p._id);
+    const imgContent = p.photoUrl
+      ? `<img src="${p.photoUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openLightbox('${p.photoUrl}')" />`
+      : `<span style="font-size:52px;">${p.emoji||'🛍️'}</span>`;
+    grid.innerHTML+=`<div class="product-card">
+      <div class="product-img">${imgContent}
+        ${p.compare?`<span style="position:absolute;top:10px;right:10px;background:var(--blue);color:#fff;font-size:10px;padding:2px 8px;border-radius:3px;letter-spacing:1px;z-index:1;">SALE</span>`:''}
+      </div>
+      <div class="product-body">
+        <span class="tag">${p.cat}</span>
+        <div style="margin:8px 0 3px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;">${p.name}</div>
+        <div style="font-size:12px;color:var(--muted2);margin-bottom:10px;line-height:1.5;font-family:'DM Sans',sans-serif;">${p.desc||''}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;">
+          <div><span class="price">$${parseFloat(p.price).toFixed(2)}</span>${p.compare?`<span class="old-price">$${parseFloat(p.compare).toFixed(2)}</span>`:''}</div>
+          <button class="btn-blue" onclick="addToCart('${p._id}')" style="font-size:11px;padding:6px 12px;">${inCart?'IN CART ✓':'ADD'}</button>
+        </div>
+        <button onclick="openReviewModal('${p._id}','${p.name.replace(/'/g,"\\'")}' )" style="background:none;border:none;color:var(--muted2);font-size:11px;cursor:pointer;margin-top:8px;padding:0;font-family:'Space Mono',monospace;">★ Leave a review</button>
+        ${p.stock<=5&&p.stock>0?`<p style="font-size:10px;color:#ffb300;margin-top:4px;">// only ${p.stock} left</p>`:''}
+        ${p.stock==0?`<p style="font-size:10px;color:#ef5350;margin-top:4px;">// out of stock</p>`:''}
+      </div>
+    </div>`;
+  });
+}
+
+function setFilter(cat, btn){
+  currentFilter=cat;
+  document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  loadProducts();
+}
+
+// ── Cart ───────────────────────────────────────────────────────────────────
+function addToCart(id){
+  const e=cart.find(c=>c.id===id);
+  if(e) e.qty++; else cart.push({id,qty:1});
+  saveCart(); updateCartCount(); renderProducts();
+  toast('// added to cart');
+}
+function changeQty(id,d){
+  const item=cart.find(c=>c.id===id);
+  if(!item) return;
+  item.qty+=d;
+  if(item.qty<=0) cart=cart.filter(c=>c.id!==id);
+  saveCart(); updateCartCount(); renderCartItems();
+}
+function updateCartCount(){ document.getElementById('cart-count').textContent=cart.reduce((s,c)=>s+c.qty,0); }
+function renderCartItems(){
+  const c=document.getElementById('cart-items'),e=document.getElementById('cart-empty'),t=document.getElementById('cart-total'),b=document.getElementById('checkout-btn');
+  if(!cart.length){c.innerHTML='';e.style.display='block';t.textContent='$0.00';b.disabled=true;return;}
+  e.style.display='none';b.disabled=false;let total=0;
+  c.innerHTML=cart.map(item=>{
+    const p=products.find(x=>x._id===item.id);if(!p)return'';
+    total+=p.price*item.qty;
+    return`<div class="cart-item">
+      <div class="cart-thumb">${p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}"/>`:`<span style="font-size:20px;">${p.emoji||'🛍️'}</span>`}</div>
+      <div style="flex:1;min-width:0;"><div style="font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;">${p.name}</div><div style="font-size:11px;color:var(--muted2);">$${p.price.toFixed(2)}</div></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="qty-btn" onclick="changeQty('${item.id}',-1)">−</div>
+        <span style="font-size:13px;min-width:20px;text-align:center;">${item.qty}</span>
+        <div class="qty-btn" onclick="changeQty('${item.id}',1)">+</div>
+      </div>
+    </div>`;
+  }).join('');
+  t.textContent='$'+total.toFixed(2);
+}
+
+// ── Shops ──────────────────────────────────────────────────────────────────
+async function loadShops(){
+  document.getElementById('shops-loading').style.display='block';
+  document.getElementById('shops-empty').style.display='none';
+  try {
+    const sellers = await apiFetch('/api/sellers');
+    document.getElementById('shops-loading').style.display='none';
+    if(!sellers.length){document.getElementById('shops-empty').style.display='block';return;}
+    document.getElementById('shops-grid').innerHTML=sellers.map(s=>`
+      <div class="shop-card" onclick="openShop('${s._id}')">
+        <div style="font-size:36px;margin-bottom:10px;">${s.avatarEmoji||'🏪'}</div>
+        <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;">${s.shopName}</div>
+        <div style="font-size:12px;color:var(--muted2);font-family:'DM Sans',sans-serif;margin-bottom:8px;">${s.shopDesc||''}</div>
+        <div style="font-size:11px;color:var(--muted);">@${s.username}</div>
+      </div>`).join('');
+  } catch(e){
+    document.getElementById('shops-loading').textContent='// error loading shops';
+  }
+}
+
+async function openShop(sellerId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-shop').classList.add('active');
+  document.getElementById('shop-header').innerHTML='<p style="color:var(--muted2);font-size:13px;">// loading...</p>';
+  document.getElementById('shop-products').innerHTML='';
+  try {
+    const {seller, products: prods} = await apiFetch('/api/sellers/'+sellerId);
+    document.getElementById('shop-header').innerHTML=`
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
+        <div style="font-size:48px;">${seller.avatarEmoji||'🏪'}</div>
+        <div>
+          <h2 style="font-size:22px;font-weight:700;color:#fff;margin-bottom:4px;">${seller.shopName}</h2>
+          <div style="font-size:13px;color:var(--muted2);font-family:'DM Sans',sans-serif;">${seller.shopDesc||''}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px;">@${seller.username}</div>
+        </div>
+      </div>`;
+    if(!prods.length){
+      document.getElementById('shop-products').innerHTML='<p style="color:var(--muted);font-size:13px;">// no products yet</p>';
+      return;
+    }
+    document.getElementById('shop-products').innerHTML=prods.map(p=>{
+      const inCart=cart.find(c=>c.id===p._id);
+      return`<div class="product-card">
+        <div class="product-img">${p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openLightbox('${p.photoUrl}')"/>`:`<span style="font-size:52px;">${p.emoji||'🛍️'}</span>`}</div>
+        <div class="product-body">
+          <span class="tag">${p.cat}</span>
+          <div style="margin:8px 0 3px;font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;">${p.name}</div>
+          <div style="font-size:12px;color:var(--muted2);margin-bottom:10px;line-height:1.5;font-family:'DM Sans',sans-serif;">${p.desc||''}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;">
+            <span class="price">$${parseFloat(p.price).toFixed(2)}</span>
+            <button class="btn-blue" onclick="addToCartShop('${p._id}')" style="font-size:11px;padding:6px 12px;">${inCart?'IN CART ✓':'ADD'}</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    // make cart work on shop page
+    window._shopProducts = prods;
+  } catch(e){
+    document.getElementById('shop-header').innerHTML=`<p style="color:#ef5350;font-size:13px;">// error: ${e.message}</p>`;
+  }
+}
+
+function addToCartShop(id){
+  const allProds = [...products, ...(window._shopProducts||[])];
+  const p = allProds.find(x=>x._id===id);
+  if(!p) return;
+  if(!products.find(x=>x._id===id)) products.push(p);
+  addToCart(id);
+}
+
+// ── Seller auth ────────────────────────────────────────────────────────────
+function showSellerMenu(){
+  if(currentSeller) showSellerDash();
+  else showSellerLogin();
+}
+function showSellerSignup(){ closeAll(); document.getElementById('modal-seller-signup').style.display='block'; }
+function showSellerLogin(){ closeAll(); document.getElementById('modal-seller-login').style.display='block'; }
+
+async function doSellerSignup(){
+  const btn=document.getElementById('ss-btn');
+  const err=document.getElementById('ss-err');
+  const u=document.getElementById('ss-user').value.trim();
+  const em=document.getElementById('ss-email').value.trim();
+  const pw=document.getElementById('ss-pass').value;
+  const sh=document.getElementById('ss-shop').value.trim();
+  const desc=document.getElementById('ss-desc').value.trim();
+  const emoji=document.getElementById('ss-emoji').value||'🏪';
+  if(!u||!em||!pw||!sh){err.textContent='// all fields required';err.style.display='block';return;}
+  btn.innerHTML='<span class="spinner"></span>CREATING...';btn.disabled=true;
+  try {
+    const seller=await apiFetch('/api/sellers/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,email:em,password:pw,shopName:sh,shopDesc:desc,avatarEmoji:emoji})});
+    saveSeller(seller);
+    closeAll();
+    updateSellerNav();
+    toast('// shop created! welcome '+seller.shopName);
+    showSellerDash();
+  } catch(e){ err.textContent='// '+e.message; err.style.display='block'; }
+  finally{ btn.innerHTML='CREATE SHOP';btn.disabled=false; }
+}
+
+async function doSellerLogin(){
+  const btn=document.getElementById('sl-btn');
+  const err=document.getElementById('sl-err');
+  const em=document.getElementById('sl-email').value.trim();
+  const pw=document.getElementById('sl-pass').value;
+  btn.innerHTML='<span class="spinner"></span>SIGNING IN...';btn.disabled=true;
+  try {
+    const seller=await apiFetch('/api/sellers/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pw})});
+    saveSeller(seller);
+    closeAll();
+    updateSellerNav();
+    toast('// welcome back '+seller.shopName);
+    showSellerDash();
+  } catch(e){ err.style.display='block'; }
+  finally{ btn.innerHTML='SIGN IN';btn.disabled=false; }
+}
+
+function sellerSignOut(){
+  currentSeller=null;
+  localStorage.removeItem('shipck_seller');
+  updateSellerNav();
+  closeAll();
+  toast('// signed out');
+}
+
+function updateSellerNav(){
+  const btn=document.getElementById('seller-nav-btn');
+  btn.textContent=currentSeller ? (currentSeller.avatarEmoji||'🏪')+' MY SHOP' : 'SELL';
+}
+
+function showSellerDash(){
+  if(!currentSeller){showSellerLogin();return;}
+  closeAll();
+  document.getElementById('seller-dash-title').textContent='// '+currentSeller.shopName;
+  document.getElementById('modal-seller-dash').style.display='block';
+  loadSellerProducts();
+}
+
+async function loadSellerProducts(){
+  const list=document.getElementById('seller-product-list');
+  list.innerHTML='<p style="color:var(--muted);font-size:12px;">// loading...</p>';
+  try {
+    const prods=await apiFetch('/api/products?sellerId='+currentSeller._id);
+    if(!prods.length){list.innerHTML='<p style="color:var(--muted);font-size:12px;">// no products yet</p>';return;}
+    list.innerHTML=prods.map(p=>`
+      <div class="admin-row">
+        <div class="admin-thumb">${p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}"/>`:`<span style="font-size:18px;">${p.emoji||'🛍️'}</span>`}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'DM Sans',sans-serif;">${p.name}</div>
+          <div style="font-size:11px;color:var(--muted2);">$${parseFloat(p.price).toFixed(2)} · ${p.stock} units</div>
+        </div>
+      </div>`).join('');
+  } catch(e){ list.innerHTML=`<p style="color:#ef5350;font-size:12px;">// ${e.message}</p>`; }
+}
+
+async function addSellerProduct(){
+  if(!currentSeller){toast('// please sign in first');return;}
+  const name=document.getElementById('sp-name').value.trim();
+  const price=document.getElementById('sp-price').value;
+  const err=document.getElementById('sp-err');
+  if(!name||!price){err.style.display='block';return;}
+  err.style.display='none';
+  const btn=document.getElementById('sp-btn');
+  btn.innerHTML='<span class="spinner"></span>SAVING...';btn.disabled=true;
+  try {
+    let photoBase64=null,photoMime=null;
+    const file=pendingPhotos['seller-upload-zone'];
+    if(file){photoMime=file.type;photoBase64=await fileToBase64(file);}
+    await apiFetch('/api/products',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',...sellerHeaders()},
+      body:JSON.stringify({
+        name,desc:document.getElementById('sp-desc').value.trim(),
+        price,cat:document.getElementById('sp-cat').value,
+        emoji:document.getElementById('sp-emoji').value||'🛍️',
+        stock:document.getElementById('sp-stock').value||10,
+        photoBase64,photoMime,
+        sellerId:currentSeller._id,
+        sellerName:currentSeller.shopName
+      })
+    });
+    ['sp-name','sp-desc','sp-price','sp-stock','sp-emoji'].forEach(id=>document.getElementById(id).value='');
+    removePhoto({stopPropagation:()=>{}},'seller-upload-zone','seller-upload-preview','seller-remove-photo','seller-upload-placeholder','sp-photo');
+    toast('// product added to your shop');
+    loadSellerProducts();
+    loadProducts();
+  } catch(e){ toast('✗ '+e.message); }
+  finally{ btn.innerHTML='ADD TO MY SHOP';btn.disabled=false; }
+}
+
+// ── Reviews ────────────────────────────────────────────────────────────────
+function openReviewModal(productId, productName){
+  currentReviewProductId=productId;
+  currentRating=0;
+  document.getElementById('review-product-name').textContent=productName;
+  document.getElementById('rv-name').value='';
+  document.getElementById('rv-comment').value='';
+  document.getElementById('rv-err').style.display='none';
+  setRating(0);
+  closeAll();
+  document.getElementById('modal-review').style.display='block';
+}
+
+function setRating(n){
+  currentRating=n;
+  document.querySelectorAll('#stars-input span').forEach((s,i)=>{
+    s.classList.toggle('active',i<n);
+  });
+}
+
+async function submitReview(){
+  const name=document.getElementById('rv-name').value.trim();
+  const comment=document.getElementById('rv-comment').value.trim();
+  const err=document.getElementById('rv-err');
+  if(!name||!currentRating){err.textContent='// name and rating required';err.style.display='block';return;}
+  const btn=document.getElementById('rv-btn');
+  btn.innerHTML='<span class="spinner"></span>SUBMITTING...';btn.disabled=true;
+  try {
+    await apiFetch('/api/reviews/'+currentReviewProductId,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({buyerName:name,rating:currentRating,comment})
+    });
+    closeAll();
+    toast('// review submitted — thanks!');
+  } catch(e){ err.textContent='// '+e.message;err.style.display='block'; }
+  finally{ btn.innerHTML='SUBMIT REVIEW';btn.disabled=false; }
+}
+
+// ── Pokemon ────────────────────────────────────────────────────────────────
+async function loadPokemon(){
+  document.getElementById('pokemon-loading').style.display='block';
+  document.getElementById('pokemon-empty').style.display='none';
+  document.getElementById('pokemon-grid').innerHTML='';
+  try {
+    const params=new URLSearchParams();
+    const search=document.getElementById('pokemon-search').value.trim();
+    const condition=document.getElementById('pokemon-condition').value;
+    const maxPrice=document.getElementById('pokemon-max').value;
+    if(search) params.set('search',search);
+    if(condition) params.set('condition',condition);
+    if(maxPrice) params.set('maxPrice',maxPrice);
+    const cards=await apiFetch('/api/pokemon'+(params.toString()?'?'+params:''));
+    document.getElementById('pokemon-loading').style.display='none';
+    if(!cards.length){document.getElementById('pokemon-empty').style.display='block';return;}
+    document.getElementById('pokemon-grid').innerHTML=cards.map(c=>`
+      <div class="pokemon-card">
+        <div class="product-img" style="border-bottom:1px solid rgba(255,215,0,0.15);">
+          ${c.photoUrl?`<img src="${c.photoUrl}" alt="${c.name}" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="openLightbox('${c.photoUrl}')"/>`:`<span style="font-size:52px;">🎴</span>`}
+        </div>
+        <div class="product-body">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span class="condition-badge ${conditionClass(c.condition)}">${c.condition||'Unknown'}</span>
+            ${c.set?`<span style="font-size:10px;color:var(--muted);">${c.set}</span>`:''}
+          </div>
+          <div style="font-size:14px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:500;margin-bottom:4px;">${c.name}</div>
+          <div style="font-size:12px;color:var(--muted2);margin-bottom:8px;font-family:'DM Sans',sans-serif;">${c.desc||''}</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">Seller: ${c.sellerName||'Unknown'}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <span class="price price-yellow">$${parseFloat(c.price).toFixed(2)}</span>
+            <button class="btn-yellow" style="font-size:11px;padding:6px 12px;" onclick="contactSellerForCard('${c.name}','${c.sellerName||''}','${c.price}')">BUY</button>
+          </div>
+        </div>
+      </div>`).join('');
+  } catch(e){
+    document.getElementById('pokemon-loading').textContent='// error loading cards';
+  }
+}
+
+function contactSellerForCard(name, seller, price){
+  toast(`// contact ${seller} about "${name}" — $${parseFloat(price).toFixed(2)}`);
+}
+
+function showPokemonSell(){
+  if(!currentSeller){
+    toast('// you need a seller account to list cards');
+    showSellerLogin();
+    return;
+  }
+  closeAll();
+  document.getElementById('modal-pokemon-sell').style.display='block';
+}
+
+async function listPokemonCard(){
+  if(!currentSeller){toast('// sign in as seller first');return;}
+  const name=document.getElementById('pk-name').value.trim();
+  const price=document.getElementById('pk-price').value;
+  const err=document.getElementById('pk-err');
+  if(!name||!price){err.textContent='// name and price required';err.style.display='block';return;}
+  err.style.display='none';
+  const btn=document.getElementById('pk-btn');
+  btn.innerHTML='<span class="spinner"></span>LISTING...';btn.disabled=true;
+  try {
+    let photoBase64=null,photoMime=null;
+    const file=pendingPhotos['pk-upload-zone'];
+    if(file){photoMime=file.type;photoBase64=await fileToBase64(file);}
+    await apiFetch('/api/pokemon',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',...sellerHeaders()},
+      body:JSON.stringify({
+        name,
+        set:document.getElementById('pk-set').value.trim(),
+        condition:document.getElementById('pk-condition').value,
+        price,
+        desc:document.getElementById('pk-desc').value.trim(),
+        photoBase64,photoMime,
+        sellerId:currentSeller._id,
+        sellerName:currentSeller.shopName
+      })
+    });
+    ['pk-name','pk-set','pk-price','pk-desc'].forEach(id=>document.getElementById(id).value='');
+    removePhoto({stopPropagation:()=>{}},'pk-upload-zone','pk-upload-preview','pk-remove-photo','pk-upload-placeholder','pk-photo');
+    closeAll();
+    toast('// card listed!');
+    loadPokemon();
+  } catch(e){ err.textContent='// '+e.message;err.style.display='block'; }
+  finally{ btn.innerHTML='LIST CARD';btn.disabled=false; }
+}
+
+// ── Admin ──────────────────────────────────────────────────────────────────
+function showAdminLogin(){ if(isAdmin){showAdminPanel();return;} closeAll(); document.getElementById('modal-admin-login').style.display='block'; }
+
+async function doLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value;
+  const btn=document.getElementById('login-btn');
+  btn.innerHTML='<span class="spinner"></span>CHECKING...';btn.disabled=true;
+  try {
+    await apiFetch('/api/admin/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+    isAdmin=true;
+    localStorage.setItem('shipck_user',u);
+    localStorage.setItem('shipck_pass',p);
+    closeAll();
+    showAdminPanel();
+  } catch { document.getElementById('login-err').style.display='block'; }
+  finally{ btn.innerHTML='ENTER';btn.disabled=false; }
+}
+
+function adminSignOut(){ isAdmin=false; localStorage.removeItem('shipck_user'); localStorage.removeItem('shipck_pass'); closeAll(); }
+function showAdminPanel(){ closeAll(); document.getElementById('modal-admin-panel').style.display='block'; loadAdminProducts(); }
+
+async function loadAdminProducts(){
+  const list=document.getElementById('admin-list');
+  list.innerHTML='<p style="color:var(--muted);font-size:12px;">// loading...</p>';
+  try {
+    const prods=await apiFetch('/api/products');
+    document.getElementById('p-count').textContent=prods.length;
+    if(!prods.length){list.innerHTML='<p style="color:var(--muted);font-size:12px;">// no products yet</p>';return;}
+    list.innerHTML=prods.map(p=>`
+      <div class="admin-row">
+        <div class="admin-thumb">${p.photoUrl?`<img src="${p.photoUrl}" alt="${p.name}"/>`:`<span style="font-size:18px;">${p.emoji||'🛍️'}</span>`}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'DM Sans',sans-serif;">${p.name}</div>
+          <div style="font-size:11px;color:var(--muted2);">$${parseFloat(p.price).toFixed(2)} · ${p.cat} · ${p.stock} units${p.photoUrl?' · 📷':''}</div>
+        </div>
+        <button class="btn-danger" onclick="deleteProduct('${p._id}')">DELETE</button>
+      </div>`).join('');
+  } catch(e){ list.innerHTML=`<p style="color:#ef5350;font-size:12px;">// ${e.message}</p>`; }
+}
+
+async function addProduct(){
+  const name=document.getElementById('p-name').value.trim();
+  const price=document.getElementById('p-price').value;
+  const err=document.getElementById('add-err');
+  if(!name||!price){err.style.display='block';return;}
+  err.style.display='none';
+  const btn=document.getElementById('add-btn');
+  btn.innerHTML='<span class="spinner"></span>SAVING...';btn.disabled=true;
+  try {
+    let photoBase64=null,photoMime=null;
+    const file=pendingPhotos['upload-zone'];
+    if(file){photoMime=file.type;photoBase64=await fileToBase64(file);}
+    await apiFetch('/api/products',{
+      method:'POST',
+      headers:{'Content-Type':'application/json',...adminHeaders()},
+      body:JSON.stringify({
+        name,desc:document.getElementById('p-desc').value.trim(),
+        price,compare:document.getElementById('p-compare').value,
+        cat:document.getElementById('p-cat').value,
+        emoji:document.getElementById('p-emoji').value||'🛍️',
+        stock:document.getElementById('p-stock').value||100,
+        photoBase64,photoMime
+      })
+    });
+    ['p-name','p-desc','p-price','p-compare','p-emoji','p-stock'].forEach(id=>document.getElementById(id).value='');
+    removePhoto({stopPropagation:()=>{}},'upload-zone','upload-preview','remove-photo','upload-placeholder','p-photo');
+    toast('// product added');
+    loadAdminProducts();
+    loadProducts();
+  } catch(e){ toast('✗ '+e.message); }
+  finally{ btn.innerHTML='ADD PRODUCT';btn.disabled=false; }
+}
+
+async function deleteProduct(id){
+  if(!confirm('Delete this product?')) return;
+  try {
+    await apiFetch('/api/products/'+id,{method:'DELETE',headers:adminHeaders()});
+    toast('// deleted');
+    cart=cart.filter(c=>c.id!==id); saveCart(); updateCartCount();
+    loadAdminProducts(); loadProducts();
+  } catch(e){ toast('✗ '+e.message); }
+}
+
+// ── Checkout ───────────────────────────────────────────────────────────────
+function startCheckout(){
+  if(!cart.length) return;
+  closeAll();
+  ['checkout-step1','checkout-step2','checkout-step3'].forEach((id,i)=>document.getElementById(id).style.display=i===0?'block':'none');
+  ['s1','s2','s3'].forEach((id,i)=>document.getElementById(id).className='step-dot '+(i===0?'done':'pending'));
+  document.getElementById('modal-checkout').style.display='block';
+}
+function goStep2(){
+  const name=document.getElementById('o-name').value.trim(),email=document.getElementById('o-email').value.trim(),addr=document.getElementById('o-addr').value.trim(),err=document.getElementById('co-err1');
+  if(!name||!email||!addr){err.style.display='block';return;}
+  err.style.display='none';
+  document.getElementById('s2').className='step-dot active';
+  document.getElementById('checkout-step1').style.display='none';
+  document.getElementById('checkout-step2').style.display='block';
+  let total=0;
+  const h=cart.map(item=>{
+    const p=products.find(x=>x._id===item.id);if(!p)return'';
+    const s=p.price*item.qty;total+=s;
+    return`<div style="display:flex;align-items:center;gap:10px;font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);font-family:'DM Sans',sans-serif;">
+      <div style="width:32px;height:32px;border-radius:4px;overflow:hidden;background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">${p.photoUrl?`<img src="${p.photoUrl}" style="width:100%;height:100%;object-fit:cover;"/>`:`<span style="font-size:16px;">${p.emoji||'🛍️'}</span>`}</div>
+      <span style="flex:1;">${p.name} × ${item.qty}</span>
+      <span style="color:var(--blue2);">$${s.toFixed(2)}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('review-items').innerHTML=h;
+  document.getElementById('review-total').textContent='$'+total.toFixed(2);
+  document.getElementById('review-summary').innerHTML=`Ship to: <span style="color:var(--text);">${addr}</span><br>Email: <span style="color:var(--text);">${email}</span>`;
+}
+function backStep1(){ document.getElementById('checkout-step1').style.display='block'; document.getElementById('checkout-step2').style.display='none'; document.getElementById('s2').className='step-dot pending'; }
+async function submitOrder(){
+  const btn=document.getElementById('submit-btn');
+  btn.innerHTML='<span class="spinner"></span>PROCESSING...';btn.disabled=true;
+  try {
+    const result=await apiFetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:document.getElementById('o-name').value.trim(),email:document.getElementById('o-email').value.trim(),phone:document.getElementById('o-phone').value.trim(),address:document.getElementById('o-addr').value.trim(),items:cart.map(c=>({productId:c.id,qty:c.qty}))})});
+    document.getElementById('checkout-step2').style.display='none';
+    document.getElementById('checkout-step3').style.display='block';
+    document.getElementById('s2').className='step-dot done';
+    document.getElementById('s3').className='step-dot done';
+    document.getElementById('conf-email').textContent=document.getElementById('o-email').value.trim();
+    document.getElementById('conf-order-id').textContent=`// order id: ${result.orderId} — we'll be in touch within 24hrs`;
+  } catch(e){ toast('✗ Order failed: '+e.message); }
+  finally{ btn.innerHTML='PLACE ORDER';btn.disabled=false; }
+}
+function finishOrder(){ cart=[]; saveCart(); updateCartCount(); closeAll(); loadProducts(); }
+
+// ── Lightbox / utils ───────────────────────────────────────────────────────
+function openLightbox(src){ document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').style.display='block'; }
+function closeLightbox(){ document.getElementById('lightbox').style.display='none'; }
+function closeAll(){ ['modal-admin-login','modal-admin-panel','modal-cart','modal-checkout','modal-seller-signup','modal-seller-login','modal-seller-dash','modal-review','modal-pokemon-sell'].forEach(id=>document.getElementById(id).style.display='none'); }
+function openCart(){ closeAll(); document.getElementById('modal-cart').style.display='block'; renderCartItems(); }
+
+// ── Init ───────────────────────────────────────────────────────────────────
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAll();closeLightbox();}});
 document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 updateCartCount();
+updateSellerNav();
 loadProducts();
 </script>
 </body>
